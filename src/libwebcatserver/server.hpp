@@ -4,7 +4,6 @@
 
 #include <belt.pp/isocket.hpp>
 #include <belt.pp/ilog.hpp>
-#include <belt.pp/direct_stream.hpp>
 
 #include <memory>
 
@@ -19,8 +18,7 @@ class WEBCATSERVERSHARED_EXPORT server
 {
 public:
     server(beltpp::ip_address const& bind_to_address,
-           beltpp::ilog* plogger,
-           beltpp::direct_channel& stream);
+           beltpp::ilog* plogger);
     server(server&& other) noexcept;
     ~server();
 

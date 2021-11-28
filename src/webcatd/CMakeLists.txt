@@ -8,10 +8,7 @@ target_link_libraries(webcatd PRIVATE
     webcatserver
     belt.pp
     log
-    direct_stream
-    Boost::filesystem
     Boost::program_options
-    Boost::locale
     )
 
 if(NOT WIN32 AND NOT APPLE)

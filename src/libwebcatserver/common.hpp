@@ -17,8 +17,6 @@ size_t const http_enough_length = 10 * 1024;
 size_t const http_header_max_size = 64 * 1024;
 size_t const http_content_max_size = 10 * 1024 * 1024;
 
-std::string const server_peerid = "server";
-
 std::chrono::steady_clock::duration const event_timer_period = std::chrono::seconds(15);
 
 beltpp::void_unique_ptr get_putl();
@@ -82,8 +80,7 @@ public:
 };
 
 wait_result_item wait_and_receive_one(wait_result& wait_result_info,
-                                             beltpp::event_handler& eh,
-                                             beltpp::stream& event_stream,
-                                             beltpp::stream* on_demand_stream);
+                                      beltpp::event_handler& eh,
+                                      beltpp::stream& event_stream);
 }
 }

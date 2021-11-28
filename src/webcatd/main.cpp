@@ -2,11 +2,9 @@
 
 #include <belt.pp/log.hpp>
 #include <belt.pp/scope_helper.hpp>
-#include <belt.pp/direct_stream.hpp>
 
 #include <boost/program_options.hpp>
 #include <boost/locale.hpp>
-#include <boost/filesystem/path.hpp>
 
 #include <iostream>
 #include <vector>
@@ -45,18 +43,6 @@ void loop(SERVER& server, beltpp::ilog_ptr& plogger_exceptions, bool& terminatio
 
 int main(int argc, char** argv)
 {
-    try
-    {
-        //  boost filesystem UTF-8 support
-        std::locale::global(boost::locale::generator().generate(""));
-        boost::filesystem::path::imbue(std::locale());
-    }
-    catch (...)
-    {}  //  don't care for exception, for now
-    //
-
-    //meshpp::config::set_public_key_prefix("WebCat-");
-
     beltpp::ip_address bind_to_address;
 
     if (false == process_command_line(argc, argv,
@@ -79,12 +65,9 @@ int main(int argc, char** argv)
         
         beltpp::ilog_ptr plogger = beltpp::console_logger("server", true);
         //plogger_admin->disable();
-        
-        beltpp::direct_channel direct_channel;
 
         webcat::server server(bind_to_address,
-                              plogger.get(),
-                              direct_channel);
+                              plogger.get());
 
         g_server = &server;
 

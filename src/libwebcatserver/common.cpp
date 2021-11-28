@@ -26,8 +26,7 @@ namespace detail
 {
 wait_result_item wait_and_receive_one(wait_result& wait_result_info,
                                       beltpp::event_handler& eh,
-                                      beltpp::stream& event_stream,
-                                      beltpp::stream* on_demand_stream)
+                                      beltpp::stream& event_stream)
 {
     auto& info = wait_result_info.m_wait_result;
 
@@ -62,16 +61,6 @@ wait_result_item wait_and_receive_one(wait_result& wait_result_info,
         /*if (wait_result & beltpp::event_handler::timer_out)
         {
         }*/
-
-        if (on_demand_stream && (info & beltpp::event_handler::on_demand))
-        {
-            beltpp::socket::packets received_packets;
-            beltpp::socket::peer_id peerid;
-            received_packets = on_demand_stream->receive(peerid);
-
-            wait_result_info.on_demand_packets = std::make_pair(peerid,
-                                                                std::move(received_packets));
-        }
     }
 
     auto result = wait_result_item::empty_result();

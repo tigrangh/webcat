@@ -22,7 +22,6 @@ add_library(webcatserver
 target_link_libraries(webcatserver
     PUBLIC
         webcat
-        direct_stream
     INTERFACE
         belt.pp
     PRIVATE

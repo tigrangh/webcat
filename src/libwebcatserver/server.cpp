@@ -42,17 +42,13 @@ public:
     event_handler_ptr ptr_eh;
     socket_ptr ptr_socket;
 
-    beltpp::stream_ptr ptr_direct_stream;
-
     wait_result wait_result_info;
 
     server_internals(ip_address const& bind_to_address,
-                     ilog* _plogger,
-                     beltpp::direct_channel& stream)
+                     ilog* _plogger)
         : plogger(_plogger)
         , ptr_eh(beltpp::libsocket::construct_event_handler())
         , ptr_socket(beltpp::libsocket::getsocket<rpc_sf>(*ptr_eh))
-        , ptr_direct_stream(beltpp::construct_direct_stream(server_peerid, *ptr_eh, stream))
     {
         ptr_eh->set_timer(event_timer_period);
 
@@ -76,11 +72,9 @@ public:
 using namespace Model;
 
 server::server(ip_address const& bind_to_address,
-               ilog* plogger,
-               beltpp::direct_channel& stream)
+               ilog* plogger)
     : m_pimpl(new detail::server_internals(bind_to_address,
-                                           plogger,
-                                           stream))
+                                           plogger))
 {}
 server::server(server&& other) noexcept = default;
 server::~server() = default;
@@ -96,8 +90,7 @@ void server::run(bool& stop_check)
 
     auto wait_result = detail::wait_and_receive_one(m_pimpl->wait_result_info,
                                                     *m_pimpl->ptr_eh,
-                                                    *m_pimpl->ptr_socket,
-                                                    m_pimpl->ptr_direct_stream.get());
+                                                    *m_pimpl->ptr_socket);
 
     if (wait_result.et == detail::wait_result_item::event)
     {
@@ -137,12 +130,6 @@ void server::run(bool& stop_check)
     else if (wait_result.et == detail::wait_result_item::timer)
     {
         m_pimpl->ptr_socket->timer_action();
-    }
-    else if (m_pimpl->ptr_direct_stream && wait_result.et == detail::wait_result_item::on_demand)
-    {
-        //auto peerid = wait_result.peerid;
-        auto received_packet = std::move(wait_result.packet);
-
     }
 }
 
