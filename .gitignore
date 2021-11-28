@@ -1,0 +1,8 @@
+CMakeLists.txt.user
+/.vs
+/.vscode
+/build
+/install
+/src/libwebcatserver/model.gen.hpp
+/CMakeSettings.json
+*.DS_Store
