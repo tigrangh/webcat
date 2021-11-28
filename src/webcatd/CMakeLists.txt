@@ -6,10 +6,10 @@ add_executable(webcatd
 target_link_libraries(webcatd PRIVATE
     webcat
     webcatserver
-    systemutility
     belt.pp
     log
     direct_stream
+    Boost::filesystem
     Boost::program_options
     Boost::locale
     )

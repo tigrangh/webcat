@@ -27,7 +27,7 @@ include(cmake_utility/utility.cmake)
 if(NOT TARGET belt.pp)
 add_subdirectory(belt.pp)
 endif()
-find_package(belt.pp)
+#find_package(belt.pp)
 
 add_subdirectory(webcat)
 add_subdirectory(webcatd)

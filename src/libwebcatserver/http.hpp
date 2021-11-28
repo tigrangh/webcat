@@ -17,7 +17,7 @@ using std::vector;
 using std::pair;
 using std::unordered_map;
 
-namespace cloudy
+namespace webcat
 {
 namespace http
 {
@@ -61,9 +61,9 @@ beltpp::detail::pmsg_all message_list_load(
                                          iter_scan_begin,
                                          iter_scan_end,
                                          it_fallback,
-                                         cloudy::http_enough_length,
-                                         cloudy::http_header_max_size,
-                                         cloudy::http_content_max_size,
+                                         webcat::http_enough_length,
+                                         webcat::http_header_max_size,
+                                         webcat::http_content_max_size,
                                          posted);
     auto code = result.first;
     auto& ss = result.second;

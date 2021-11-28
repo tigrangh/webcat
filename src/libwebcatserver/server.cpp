@@ -52,7 +52,7 @@ public:
         : plogger(_plogger)
         , ptr_eh(beltpp::libsocket::construct_event_handler())
         , ptr_socket(beltpp::libsocket::getsocket<rpc_sf>(*ptr_eh))
-        , ptr_direct_stream(beltpp::construct_direct_stream(peerid, *ptr_eh, channel))
+        , ptr_direct_stream(beltpp::construct_direct_stream(server_peerid, *ptr_eh, stream))
     {
         ptr_eh->set_timer(event_timer_period);
 
@@ -76,10 +76,11 @@ public:
 using namespace Model;
 
 server::server(ip_address const& bind_to_address,
-               ilog* plogger)
+               ilog* plogger,
+               beltpp::direct_channel& stream)
     : m_pimpl(new detail::server_internals(bind_to_address,
                                            plogger,
-                                           beltpp::direct_channel& stream))
+                                           stream))
 {}
 server::server(server&& other) noexcept = default;
 server::~server() = default;
@@ -103,7 +104,7 @@ void server::run(bool& stop_check)
         auto peerid = wait_result.peerid;
         auto received_packet = std::move(wait_result.packet);
 
-        auto& stream = *m_pimpl->ptr_socket;
+        //auto& stream = *m_pimpl->ptr_socket;
 
         try
         {
